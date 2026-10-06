@@ -37,6 +37,7 @@ data/years.yaml                 per-year notices
 static/admin/                   Decap CMS
 static/documents/legacy/        stage-design PDFs from the old site
 static/documents/stage-designs/ PDFs uploaded through the CMS
+static/vendor/pdfjs/            PDF.js 6.4.299 (shows stage designs inline on match pages)
 static/_redirects               old .php and /documents URLs → new pages
 tools/                          one-off migration scripts (see below)
 ```

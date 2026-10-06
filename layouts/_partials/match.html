@@ -1,11 +1,21 @@
-{{- /* Renders one match. Context: dict "page" <page> "compact" <bool> */ -}}
+{{- /* Renders one match.
+       Context: dict "page" <page> "compact" <bool> "single" <bool>
+       compact: summary only (no score table); single: the match's own page,
+       which shows the stage designs inline. */ -}}
 {{- $p := .page }}
+{{- $single := .single }}
 <div class="match" id="{{ $p.Date.Format "2006-01-02" }}">
   <h3 class="match-title">{{ if .compact }}<a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>{{ else }}{{ $p.Title }}{{ end }}</h3>
   {{- with $p.Content }}<div class="match-notes">{{ . }}</div>{{ end }}
   <p class="match-links">
     {{- with $p.Params.practiscore }}<a class="btn btn-sm" href="{{ . }}">Scores on PractiScore</a>{{ end }}
-    {{- with $p.Params.stage_designs }}<a class="btn btn-sm btn-ghost" href="{{ . | relURL }}">Stage designs (PDF)</a>{{ end }}
+    {{- with $p.Params.stage_designs }}
+    {{- if $single }}
+    <a class="btn btn-sm btn-ghost" href="{{ . | relURL }}" download>Download PDF</a>
+    {{- else }}
+    <a class="btn btn-sm btn-ghost" href="{{ $p.RelPermalink }}#stage-designs">Stage designs</a>
+    {{- end }}
+    {{- end }}
   </p>
   {{- with $p.Params.scores }}
   {{- if $.compact }}
@@ -14,4 +24,12 @@
   {{ partial "scores.html" . }}
   {{- end }}
   {{- end }}
+  {{- if $single }}{{ with $p.Params.stage_designs }}
+  <section class="pdf-view" id="stage-designs" data-pdf="{{ . | relURL }}" data-pdfjs="{{ "vendor/pdfjs/" | relURL }}">
+    <h2>Stage designs</h2>
+    <p class="pdf-status small">Loading stage designs…</p>
+    <noscript><p><a href="{{ . | relURL }}">Open the stage designs (PDF)</a></p></noscript>
+    <div class="pdf-pages"></div>
+  </section>
+  {{- end }}{{ end }}
 </div>

@@ -1,0 +1,2 @@
+pdfjs-dist 6.4.299 (https://github.com/mozilla/pdf.js), Apache-2.0.
+Copied from the npm package: build/pdf.min.mjs, build/pdf.worker.min.mjs, standard_fonts/, wasm/.

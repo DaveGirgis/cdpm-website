@@ -20,7 +20,10 @@
   {{- $yearPage := site.GetPage (printf "/results/%d" .Date.Year) }}
   <p class="crumbs"><a href="{{ "results/" | relURL }}">Results</a> › {{ with $yearPage }}<a href="{{ .RelPermalink }}">{{ $.Date.Year }}</a>{{ end }}</p>
   <header class="page-head"><h1>{{ .Title }} match</h1></header>
-  {{ partial "match.html" (dict "page" . "compact" false) }}
+  {{ partial "match.html" (dict "page" . "compact" false "single" true) }}
+  {{- if .Params.stage_designs }}{{ with resources.Get "js/pdf-viewer.js" | minify | fingerprint }}
+  <script type="module" src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
+  {{- end }}{{ end }}
   {{- $all := partial "matches.html" 0 }}
   {{- $newer := slice }}{{ $older := slice }}
   {{- range $all }}{{ if gt .Date $.Date }}{{ $newer = $newer | append . }}{{ else if lt .Date $.Date }}{{ $older = $older | append . }}{{ end }}{{ end }}

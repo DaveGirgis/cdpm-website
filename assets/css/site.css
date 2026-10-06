@@ -161,3 +161,12 @@ h3 { font-size: 1.1rem; }
 
 /* Single match page already has the date as its h1. */
 .page-head + .match > .match-title { display: none; }
+
+/* Inline stage designs (PDF.js) */
+.pdf-view { margin-top: 24px; }
+.pdf-view h2 { margin: 0 0 10px; font-size: 1.15rem; }
+.pdf-pages { display: grid; gap: 16px; max-width: 900px; }
+.pdf-page { width: 100%; background: #fff; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; box-shadow: var(--shadow); }
+.pdf-page:not(.ready) { background: linear-gradient(90deg, var(--surface), var(--bg), var(--surface)); }
+.pdf-page canvas { display: block; width: 100%; height: auto; }
+.pdf-error { color: var(--accent); }
