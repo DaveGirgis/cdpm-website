@@ -16,7 +16,8 @@ backend:
 # open http://localhost:1313/admin/ while `hugo server` is running.
 local_backend: true
 
-site_url: https://cochisedefensivepistolmatch.com
+# Change to https://cochisedefensivepistolmatch.com when the domain moves.
+site_url: https://cdpm.netlify.app
 logo_url: /favicon.svg
 
 media_folder: static/images/uploads
