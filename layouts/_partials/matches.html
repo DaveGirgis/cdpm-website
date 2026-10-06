@@ -1,0 +1,7 @@
+{{- /* All match pages, newest first. Optional year filter: pass an int, or 0 for all. */ -}}
+{{- $all := where (where site.RegularPages "Section" "results") "Params.record" "match" }}
+{{- $out := slice }}
+{{- range $all.ByDate.Reverse }}
+  {{- if or (eq $ 0) (eq .Date.Year $) }}{{ $out = $out | append . }}{{ end }}
+{{- end }}
+{{- return $out }}

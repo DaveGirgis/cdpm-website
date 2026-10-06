@@ -1,0 +1,25 @@
+[build]
+  publish = "public"
+  command = "hugo --gc --minify -b $URL"
+
+[build.environment]
+  HUGO_VERSION = "0.167.0"
+
+# Previews get their own address so links work there.
+[context.deploy-preview]
+  command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
+[context.branch-deploy]
+  command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
+
+# Keep the beta out of search engines until it replaces the old site.
+# Remove this block when the real domain points here.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

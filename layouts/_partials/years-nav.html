@@ -1,0 +1,6 @@
+{{- /* Year pills. Context: the current page. */ -}}
+<nav class="years" aria-label="Results by year">
+  {{- range (where (where site.RegularPages "Section" "results") "Params.record" "year").ByDate.Reverse }}
+  <a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $.RelPermalink }} aria-current="page"{{ end }}>{{ .Params.year }}</a>
+  {{- end }}
+</nav>

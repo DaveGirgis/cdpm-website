@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="wrap page">
+  <header class="page-head">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}<p class="lede">{{ . }}</p>{{ end }}
+  </header>
+  {{ partial "years-nav.html" . }}
+  <div class="prose">{{ .Content }}</div>
+  {{- with partial "matches.html" 0 }}
+  {{- $latest := (index . 0).Date.Year }}
+  <h2>{{ $latest }} results</h2>
+  <div class="matches">
+    {{- range partial "matches.html" $latest }}
+    {{ partial "match.html" (dict "page" . "compact" true) }}
+    {{- end }}
+  </div>
+  {{- end }}
+</div>
+{{ end }}

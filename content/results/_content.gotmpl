@@ -1,0 +1,11 @@
+{{/* One page per year at /results/<year>/, listing that year's matches.
+     Match files live flat in this folder, so editors never create year folders. */}}
+{{ range seq 2015 now.Year }}
+  {{ $.AddPage (dict
+    "kind" "page"
+    "path" (string .)
+    "title" (printf "%d Match Results" .)
+    "params" (dict "year" . "record" "year")
+    "dates" (dict "date" (time.AsTime (printf "%d-01-01" .)))
+  ) }}
+{{ end }}

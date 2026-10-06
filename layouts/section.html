@@ -1,0 +1,11 @@
+{{ define "main" }}
+<div class="wrap page">
+  <header class="page-head"><h1>{{ .Title }}</h1>{{ with .Description }}<p class="lede">{{ . }}</p>{{ end }}</header>
+  <div class="prose">{{ .Content }}</div>
+  <ul class="tiles">
+    {{- range .Pages.ByDate.Reverse }}
+    <li><a class="card tile" href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{- end }}
+  </ul>
+</div>
+{{ end }}

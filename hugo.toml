@@ -1,0 +1,41 @@
+baseURL = "https://cochisedefensivepistolmatch.com/"
+locale = "en-us"
+title = "Cochise Defensive Pistol Match"
+disableKinds = ["taxonomy", "term"]
+
+[params]
+  description = "A monthly defensive pistol match open to the public, sponsored by the Cochise Gun Club at the Sierra Vista Range in Sierra Vista, Arizona."
+  tagline1 = "Democracy is two wolves and a lamb voting on what to have for lunch."
+  tagline2 = "Liberty is a well-armed lamb contesting the vote."
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[[menus.main]]
+  name = "Home"
+  pageRef = "/"
+  weight = 10
+[[menus.main]]
+  name = "Results"
+  pageRef = "/results"
+  weight = 20
+[[menus.main]]
+  name = "Qualifier"
+  pageRef = "/qualifier"
+  weight = 30
+[[menus.main]]
+  name = "Workshop"
+  pageRef = "/workshop"
+  weight = 40
+[[menus.main]]
+  name = "FAQ"
+  pageRef = "/faq"
+  weight = 50
+[[menus.main]]
+  name = "Photos"
+  pageRef = "/photos"
+  weight = 60
+[[menus.main]]
+  name = "Contact"
+  pageRef = "/contact"
+  weight = 70

@@ -1,0 +1,33 @@
+{{ define "main" }}
+<div class="wrap page">
+{{- if eq .Params.record "year" }}
+  {{- $year := .Params.year }}
+  {{- $matches := partial "matches.html" $year }}
+  <header class="page-head">
+    <h1>{{ .Title }}</h1>
+    <p class="lede">{{ with $matches }}{{ len . }} matches{{ else }}No results posted yet{{ end }}</p>
+  </header>
+  {{ partial "years-nav.html" . }}
+  {{- range where (default (slice) hugo.Data.years.notices) "year" $year }}
+  <div class="notice">{{ .notice | markdownify }}</div>
+  {{- end }}
+  <div class="matches">
+    {{- range $matches }}
+    {{ partial "match.html" (dict "page" . "compact" (not .Params.scores)) }}
+    {{- end }}
+  </div>
+{{- else }}
+  {{- $yearPage := site.GetPage (printf "/results/%d" .Date.Year) }}
+  <p class="crumbs"><a href="{{ "results/" | relURL }}">Results</a> › {{ with $yearPage }}<a href="{{ .RelPermalink }}">{{ $.Date.Year }}</a>{{ end }}</p>
+  <header class="page-head"><h1>{{ .Title }} match</h1></header>
+  {{ partial "match.html" (dict "page" . "compact" false) }}
+  {{- $all := partial "matches.html" 0 }}
+  {{- $newer := slice }}{{ $older := slice }}
+  {{- range $all }}{{ if gt .Date $.Date }}{{ $newer = $newer | append . }}{{ else if lt .Date $.Date }}{{ $older = $older | append . }}{{ end }}{{ end }}
+  <nav class="pager">
+    {{- with $older }}{{ with index . 0 }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ end }}{{ else }}<span></span>{{ end }}
+    {{- with $newer }}{{ with index . (sub (len .) 1) }}<a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}{{ end }}
+  </nav>
+{{- end }}
+</div>
+{{ end }}

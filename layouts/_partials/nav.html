@@ -1,0 +1,8 @@
+<ul class="nav">
+  {{- $current := . }}
+  {{- range site.Menus.main }}
+  {{- $active := or ($current.IsMenuCurrent "main" .) ($current.HasMenuCurrent "main" .) }}
+  {{- with .Page }}{{ if and (not $current.IsHome) (not .IsHome) (hasPrefix $current.RelPermalink .RelPermalink) }}{{ $active = true }}{{ end }}{{ end }}
+  <li><a href="{{ .URL }}"{{ if $active }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
+  {{- end }}
+</ul>

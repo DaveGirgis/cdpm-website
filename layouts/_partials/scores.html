@@ -1,0 +1,28 @@
+{{- /* Score table for the hand-scored matches (2015–2017). Context: list of rows. */ -}}
+{{- $stages := 0 }}
+{{- range . }}{{ if gt (len .stages) $stages }}{{ $stages = len .stages }}{{ end }}{{ end }}
+<div class="table-scroll">
+<table class="scores">
+  <thead><tr>
+    <th scope="col">Rank</th><th scope="col">Shooter</th><th scope="col">Class</th>
+    {{- range seq $stages }}<th scope="col" class="num">Stage {{ . }}</th>{{ end }}
+    <th scope="col" class="num">Total</th>
+  </tr></thead>
+  <tbody>
+  {{- range . }}
+  {{- $row := . }}
+  <tr>
+    <td>{{ .rank }}</td><th scope="row">{{ .shooter }}</th><td>{{ .class }}</td>
+    {{- range $i, $t := .stages }}
+    {{- $n := add $i 1 }}
+    {{- $win := in (default (slice) $row.stage_wins) $n }}
+    {{- $clean := in (default (slice) $row.clean) $n }}
+    <td class="num{{ if $win }} win{{ end }}{{ if $clean }} clean{{ end }}">{{ $t }}{{ if $win }}<span class="sr"> (stage winner)</span>{{ end }}{{ if $clean }}<span class="sr"> (clean)</span>{{ end }}</td>
+    {{- end }}
+    <td class="num total">{{ .total }}</td>
+  </tr>
+  {{- end }}
+  </tbody>
+</table>
+</div>
+<p class="legend"><span class="win">Highlighted</span> = stage winner · <span class="clean">Blue</span> = clean stage (no points down)</p>

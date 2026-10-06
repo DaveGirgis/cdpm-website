@@ -1,0 +1,32 @@
+# Edited through the CMS ("Site settings"). Shown on the home page.
+range_status_url: https://sierravistashootingrange.com/
+location: Sierra Vista Range, Sierra Vista, Arizona
+sponsor: Cochise Gun Club
+match:
+  schedule: First Saturday of each month
+  sign_in: "8:30 a.m."
+  briefing: "9:00 a.m."
+  ends: "around 1:00 p.m."
+  cost: "$10"
+workshop:
+  schedule: Fourth Saturday of each month
+  sign_in: "8:30 a.m."
+  briefing: "9:00 a.m."
+  cost: "$10"
+# Short notices at the top of the home page. Turn one off with show: false.
+announcements:
+  - title: November is the Zombie Match
+    text: The annual Zombie Match. Practice your head shots!
+    show: true
+  - title: Qualifier in February and August
+    text: The February and August matches include the qualifier stage that sets each shooter's class. See the Qualifier page for details.
+    show: true
+  - title: No online registration
+    text: Since PractiScore's update we no longer take online registration. Sign in at the range on match day. You can still search PractiScore for "Cochise Defensive Pistol Match" to check dates.
+    show: true
+# Dates when the match or workshop won't run. The "next match" box on the
+# home page crosses the date out and shows the note. Example:
+#   - date: "2026-12-05"
+#     event: match        # or workshop
+#     note: Cancelled, range closed for maintenance
+cancellations: []

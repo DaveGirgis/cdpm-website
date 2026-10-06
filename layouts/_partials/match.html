@@ -1,0 +1,17 @@
+{{- /* Renders one match. Context: dict "page" <page> "compact" <bool> */ -}}
+{{- $p := .page }}
+<div class="match" id="{{ $p.Date.Format "2006-01-02" }}">
+  <h3 class="match-title">{{ if .compact }}<a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>{{ else }}{{ $p.Title }}{{ end }}</h3>
+  {{- with $p.Content }}<div class="match-notes">{{ . }}</div>{{ end }}
+  <p class="match-links">
+    {{- with $p.Params.practiscore }}<a class="btn btn-sm" href="{{ . }}">Scores on PractiScore</a>{{ end }}
+    {{- with $p.Params.stage_designs }}<a class="btn btn-sm btn-ghost" href="{{ . | relURL }}">Stage designs (PDF)</a>{{ end }}
+  </p>
+  {{- with $p.Params.scores }}
+  {{- if $.compact }}
+  <p class="small">{{ len . }} shooters · <a href="{{ $p.RelPermalink }}">full scores</a></p>
+  {{- else }}
+  {{ partial "scores.html" . }}
+  {{- end }}
+  {{- end }}
+</div>

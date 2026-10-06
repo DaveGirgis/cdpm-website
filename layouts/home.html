@@ -1,0 +1,69 @@
+{{ define "main" }}
+{{- $s := hugo.Data.settings }}
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <p class="eyebrow">Open to the public · All skill levels welcome</p>
+      <h1>Cochise Defensive Pistol Match</h1>
+      <p class="lede">A friendly monthly match at the Sierra Vista Range. No trophies, no prizes, just bragging rights. Beginners, ladies and teens welcome.</p>
+      <p class="hero-actions">
+        <a class="btn" href="{{ "results/" | relURL }}">Latest results</a>
+        <a class="btn btn-ghost" href="{{ "faq/" | relURL }}">New shooter? Read the FAQ</a>
+      </p>
+    </div>
+    <aside class="next card" id="next-match"
+      data-cancellations="{{ jsonify (default (slice) $s.cancellations) }}">
+      <h2>Next match</h2>
+      <p class="next-date" data-next="match">{{ $s.match.schedule }}</p>
+      <p class="next-note" data-note="match" hidden></p>
+      <dl class="facts">
+        <dt>Sign-in</dt><dd>{{ $s.match.sign_in }}</dd>
+        <dt>Safety briefing</dt><dd>{{ $s.match.briefing }} (mandatory)</dd>
+        <dt>Finishes</dt><dd>{{ $s.match.ends }}</dd>
+        <dt>Cost</dt><dd>{{ $s.match.cost }}</dd>
+        <dt>Where</dt><dd>{{ $s.location }}</dd>
+      </dl>
+      <p class="next-workshop">Workshop: <span data-next="workshop">{{ $s.workshop.schedule }}</span>
+        <span class="next-note" data-note="workshop" hidden></span>
+        · <a href="{{ "workshop/" | relURL }}">details</a></p>
+      <p class="small"><a href="{{ $s.range_status_url }}">Check range open/closed status</a></p>
+    </aside>
+  </div>
+</section>
+
+{{- $notes := where (default (slice) $s.announcements) "show" true }}
+{{- if $notes }}
+<section class="wrap announcements" aria-label="Announcements">
+  {{- range $notes }}
+  <div class="notice"><strong>{{ .title }}</strong> {{ .text | markdownify }}</div>
+  {{- end }}
+</section>
+{{- end }}
+
+<div class="wrap home-grid">
+  <article class="prose">
+    {{ .Content }}
+    {{- with .Params.video }}
+    <p><a class="btn btn-ghost" href="{{ .url }}">▶ Watch the {{ .title }} video</a> to see a sample of our stage designs.</p>
+    {{- end }}
+  </article>
+  <aside class="side">
+    {{- with partial "matches.html" 0 }}
+    {{- with index . 0 }}
+    <div class="card">
+      <h2>Latest results</h2>
+      {{ partial "match.html" (dict "page" . "compact" true) }}
+      {{- with site.GetPage (printf "/results/%d" .Date.Year) }}
+      <p><a href="{{ .RelPermalink }}">All {{ .Params.year }} results →</a></p>
+      {{- end }}
+    </div>
+    {{- end }}
+    {{- end }}
+    <div class="card">
+      <h2>Classes</h2>
+      <p>Shooters are classed by the qualifier stage run in February and August.</p>
+      <p><a href="{{ "qualifier/" | relURL }}">How the qualifier works →</a></p>
+    </div>
+  </aside>
+</div>
+{{ end }}

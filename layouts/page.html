@@ -1,0 +1,46 @@
+{{ define "main" }}
+<div class="wrap page">
+  <header class="page-head">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}<p class="lede">{{ . }}</p>{{ end }}
+  </header>
+  <div class="page-body{{ with .Params.image }} with-image{{ end }}">
+    <article class="prose">
+      {{ .Content }}
+      {{- with .Params.classes }}
+      <h2>Classes</h2>
+      <table class="classes">
+        <thead><tr><th scope="col">Class</th><th scope="col">Qualifier score (seconds)</th></tr></thead>
+        <tbody>
+        {{- range . }}
+        <tr><th scope="row">{{ .name }}</th><td>{{ .range }}</td></tr>
+        {{- end }}
+        </tbody>
+      </table>
+      {{- end }}
+      {{- with .Params.contacts }}
+      <div class="contacts">
+        {{- range . }}
+        <div class="card contact">
+          <h2>{{ .name }}</h2>
+          <p class="role">{{ .role }}</p>
+          {{- with .note }}<p>{{ . }}</p>{{ end }}
+          <p><a class="btn btn-sm email" data-u="{{ .user }}" data-d="{{ .domain }}" href="#">Email {{ index (split .name " ") 0 }}</a>
+            <noscript>(enable JavaScript to show the address)</noscript></p>
+        </div>
+        {{- end }}
+      </div>
+      <p>For range closures, see the <a href="{{ hugo.Data.settings.range_status_url }}">Sierra Vista range web site</a>.</p>
+      {{- end }}
+      {{- with .Params.images }}
+      <div class="gallery">
+        {{- range . }}
+        <figure><a href="{{ .src | relURL }}"><img src="{{ .src | relURL }}" alt="{{ .caption }}" loading="lazy"></a><figcaption>{{ .caption }}</figcaption></figure>
+        {{- end }}
+      </div>
+      {{- end }}
+    </article>
+    {{- with .Params.image }}<img class="page-image" src="{{ . | relURL }}" alt="" loading="lazy">{{ end }}
+  </div>
+</div>
+{{ end }}

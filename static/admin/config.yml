@@ -1,0 +1,235 @@
+# Decap CMS: the editor at /admin/.
+# Editors sign in with a GitHub account that has write access to the repo.
+# Login goes through Netlify's OAuth service (set up once in the Netlify UI).
+backend:
+  name: github
+  repo: DaveGirgis/cdpm-website
+  branch: main
+  commit_messages:
+    create: "Add {{collection}}: {{slug}}"
+    update: "Update {{collection}}: {{slug}}"
+    delete: "Delete {{collection}}: {{slug}}"
+    uploadMedia: "Upload {{path}}"
+    deleteMedia: "Delete {{path}}"
+
+# Try the editor locally without logging in: run `npx decap-server` and
+# open http://localhost:1313/admin/ while `hugo server` is running.
+local_backend: true
+
+site_url: https://cochisedefensivepistolmatch.com
+logo_url: /favicon.svg
+
+media_folder: static/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: results
+    label: Match results
+    label_singular: Match
+    description: One entry per monthly match. Add a new one after each match.
+    folder: content/results
+    create: true
+    extension: md
+    format: frontmatter
+    filter: { field: record, value: match }
+    slug: "{{fields.date}}"
+    summary: "{{title}}"
+    sortable_fields: [date, title]
+    view_groups:
+      - label: Year
+        field: date
+        pattern: \d{4}
+    media_folder: /static/documents/stage-designs
+    public_folder: /documents/stage-designs
+    fields:
+      - { name: record, widget: hidden, default: match }
+      - name: date
+        label: Match date
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: MMMM D, YYYY
+        time_format: false
+      - name: title
+        label: Title
+        hint: 'The match date written out, for example "November 7, 2026".'
+        widget: string
+      - name: practiscore
+        label: PractiScore results link
+        hint: Paste the link to this match's results on practiscore.com.
+        widget: string
+        required: false
+        pattern: ['^https://(www\.)?practiscore\.com/', 'Must be a practiscore.com link']
+      - name: stage_designs
+        label: Stage designs (PDF)
+        widget: file
+        required: false
+        media_library: { config: { multiple: false } }
+      - name: body
+        label: Notes
+        hint: 'Optional, for example "Zombie Match" or "Thanks to Scott for designing Stage 2".'
+        widget: markdown
+        required: false
+        buttons: [bold, italic, link, bulleted-list]
+        editor_components: []
+      - name: scores
+        label: Hand-entered scores (2015–2017 only)
+        hint: Old matches only. New matches use PractiScore.
+        widget: list
+        required: false
+        collapsed: true
+        summary: "{{fields.rank}}. {{fields.shooter}} ({{fields.total}})"
+        fields:
+          - { name: rank, label: Rank, widget: string }
+          - { name: shooter, label: Shooter, widget: string }
+          - { name: class, label: Class, widget: string }
+          - { name: stages, label: Stage times, widget: list, field: { name: time, label: Time, widget: string } }
+          - { name: total, label: Total, widget: string }
+          - { name: stage_wins, label: Stages won, widget: list, required: false, field: { name: stage, label: Stage, widget: number } }
+          - { name: clean, label: Clean stages, widget: list, required: false, field: { name: stage, label: Stage, widget: number } }
+
+  - name: pages
+    label: Pages
+    files:
+      - name: home
+        label: Home page
+        file: content/_index.md
+        fields:
+          - { name: title, label: Title, widget: hidden, default: Home }
+          - name: video
+            label: Sample video
+            widget: object
+            required: false
+            fields:
+              - { name: title, label: Video title, widget: string }
+              - { name: url, label: YouTube link, widget: string }
+          - { name: body, label: Main text, hint: Opens as plain Markdown because the page has a table., widget: markdown, modes: [raw, rich_text] }
+      - name: qualifier
+        label: Qualifier
+        file: content/qualifier.md
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: description, label: Summary, widget: string }
+          - name: classes
+            label: Classes
+            widget: list
+            summary: "{{fields.name}}: {{fields.range}}"
+            fields:
+              - { name: name, label: Class, widget: string }
+              - { name: range, label: Qualifier score, widget: string }
+          - name: body
+            label: Text
+            hint: The class table is added after this text automatically.
+            widget: markdown
+            modes: [raw, rich_text]
+      - name: workshop
+        label: Workshop
+        file: content/workshop.md
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: description, label: Summary, widget: string }
+          - { name: image, label: Photo, widget: image, required: false }
+          - { name: body, label: Text, widget: markdown }
+      - name: faq
+        label: FAQ
+        file: content/faq.md
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: description, label: Summary, widget: string }
+          - { name: body, label: Questions and answers, hint: 'Each question is a "Heading 3".', widget: markdown }
+      - name: contact
+        label: Contact
+        file: content/contact.md
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: description, label: Summary, widget: string }
+          - name: contacts
+            label: Contacts
+            hint: The email is split in two so spam robots can't read it from the page.
+            widget: list
+            summary: "{{fields.name}} ({{fields.role}})"
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: role, label: Role, widget: string }
+              - { name: user, label: Email (part before @), widget: string }
+              - { name: domain, label: Email (part after @), widget: string }
+              - { name: note, label: Note, widget: string, required: false }
+
+  - name: settings
+    label: Site settings
+    files:
+      - name: settings
+        label: Schedule and announcements
+        file: data/settings.yaml
+        fields:
+          - { name: range_status_url, label: Range status link, widget: string }
+          - { name: location, label: Location, widget: string }
+          - { name: sponsor, label: Sponsor, widget: string }
+          - name: match
+            label: Match
+            widget: object
+            fields:
+              - { name: schedule, label: Schedule, widget: string }
+              - { name: sign_in, label: Sign-in, widget: string }
+              - { name: briefing, label: Safety briefing, widget: string }
+              - { name: ends, label: Finishes, widget: string }
+              - { name: cost, label: Cost, widget: string }
+          - name: workshop
+            label: Workshop
+            widget: object
+            fields:
+              - { name: schedule, label: Schedule, widget: string }
+              - { name: sign_in, label: Sign-in, widget: string }
+              - { name: briefing, label: Safety briefing, widget: string }
+              - { name: cost, label: Cost, widget: string }
+          - name: announcements
+            label: Announcements
+            hint: Shown at the top of the home page. Untick "Show" to hide one without deleting it.
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: text, label: Text, widget: text }
+              - { name: show, label: Show, widget: boolean, default: true }
+          - name: cancellations
+            label: Cancelled dates
+            hint: The home page crosses out a cancelled date and shows your note.
+            widget: list
+            required: false
+            summary: "{{fields.date}} {{fields.event}}"
+            fields:
+              - { name: date, label: Date, widget: datetime, format: YYYY-MM-DD, date_format: MMMM D, YYYY, time_format: false }
+              - { name: event, label: Event, widget: select, options: [match, workshop], default: match }
+              - { name: note, label: Note, widget: string, default: Cancelled }
+      - name: years
+        label: Year notices
+        file: data/years.yaml
+        fields:
+          - name: notices
+            label: Notices
+            hint: A note shown at the top of one year's results page.
+            widget: list
+            summary: "{{fields.year}}"
+            fields:
+              - { name: year, label: Year, widget: number, value_type: int }
+              - { name: notice, label: Notice, widget: text }
+
+  - name: photos
+    label: Photo albums
+    label_singular: Album
+    folder: content/photos
+    create: true
+    filter: { field: record, value: album }
+    slug: "{{fields.title}}"
+    media_folder: /static/images/photos
+    public_folder: /images/photos
+    fields:
+      - { name: record, widget: hidden, default: album }
+      - { name: title, label: Album title, widget: string }
+      - { name: date, label: Date, widget: datetime, format: YYYY-MM-DD, date_format: MMMM D, YYYY, time_format: false }
+      - name: images
+        label: Photos
+        widget: list
+        summary: "{{fields.caption}}"
+        fields:
+          - { name: src, label: Photo, widget: image }
+          - { name: caption, label: Caption, widget: string, required: false }
