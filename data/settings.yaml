@@ -28,4 +28,7 @@ announcements:
 cancellations:
   - event: workshop
     note: Cancelled due to Hunting Trip for Match Director
-    date: 2026-11-26
+    date: 2026-11-28
+  - event: match
+    note: Cancelled due to Hunting Trip
+    date: 2026-12-05
