@@ -2,7 +2,7 @@
      Match files live flat in this folder, so editors never create year folders. */}}
 {{ range seq 2015 now.Year }}
   {{ $.AddPage (dict
-    "kind" "page"
+    "kind" "section"
     "path" (string .)
     "title" (printf "%d Match Results" .)
     "params" (dict "year" . "record" "year")

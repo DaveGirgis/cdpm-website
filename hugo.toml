@@ -8,6 +8,11 @@ disableKinds = ["taxonomy", "term"]
   tagline1 = "Democracy is two wolves and a lamb voting on what to have for lunch."
   tagline2 = "Liberty is a well-armed lamb contesting the vote."
 
+# Match pages get their address from the match date, not the file name, so a
+# file the CMS named from a mistyped date still ends up at the right URL.
+[permalinks.page]
+  results = "/results/:year-:month-:day/"
+
 [markup.goldmark.renderer]
   unsafe = true
 

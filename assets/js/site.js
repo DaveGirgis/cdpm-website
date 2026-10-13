@@ -38,7 +38,7 @@
       const noteEl = box.querySelector(`[data-note="${event}"]`);
       if (!dateEl) continue;
       const d = next(n, today);
-      const off = cancellations.find((c) => c && c.date === iso(d) && (c.event || "match") === event);
+      const off = cancellations.find((c) => c && String(c.date).slice(0, 10) === iso(d) && (c.event || "match") === event);
       dateEl.textContent = fmt.format(d);
       if (off && noteEl) {
         dateEl.style.textDecoration = "line-through";
