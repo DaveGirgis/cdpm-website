@@ -13,7 +13,15 @@ Hosted on Netlify; every push to `main` rebuilds the site.
    - PractiScore results link
    - Stage designs PDF (upload)
    - Optional notes, like "Zombie Match" or "Thanks to Scott for designing Stage 2"
-3. **Publish**. The live site updates in about a minute.
+3. **Save** as often as you like. Saved changes are drafts and don't touch
+   the live site.
+4. When it looks right, open **Workflow** (top menu), drag the card to
+   **Ready**, then click **Publish** (or use **Publish → Publish now** in the
+   entry). The live site updates in about a minute.
+
+Each publish costs 15 of the site's 300 free Netlify credits per month, so
+finish an entry before publishing rather than publishing small fixes one at a
+time. Saving drafts is free.
 
 Other things you can change there:
 

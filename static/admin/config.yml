@@ -16,6 +16,11 @@ backend:
 # open http://localhost:1313/admin/ while `hugo server` is running.
 local_backend: true
 
+# Drafts mode: "Save" keeps changes as a draft (on a cms/* branch, which costs
+# no Netlify credits); only "Publish" updates the live site. Every publish is
+# a production deploy, which costs 15 of the 300 free credits a month.
+publish_mode: editorial_workflow
+
 # Change to https://cochisedefensivepistolmatch.com when the domain moves.
 site_url: https://cdpm.netlify.app
 logo_url: /favicon.svg
@@ -34,6 +39,8 @@ collections:
     format: frontmatter
     filter: { field: record, value: match }
     slug: "{{fields.date}}"
+    preview_path: "results/{{year}}-{{month}}-{{day}}/"
+    preview_path_date_field: date
     summary: "{{title}}"
     sortable_fields: [date, title]
     view_groups:
