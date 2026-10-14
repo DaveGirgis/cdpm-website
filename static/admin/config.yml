@@ -1,10 +1,13 @@
 # Decap CMS: the editor at /admin/.
 # Editors sign in with a GitHub account that has write access to the repo.
-# Login goes through Netlify's OAuth service (set up once in the Netlify UI).
+# "Login with GitHub" goes through our own small Cloudflare Worker
+# (tools/decap-oauth), which uses the "cdpm cloudflare" GitHub OAuth app.
 backend:
   name: github
   repo: DaveGirgis/cdpm-website
   branch: main
+  base_url: https://cdpm-decap-oauth.dave-girgis.workers.dev
+  auth_endpoint: auth
   commit_messages:
     create: "Add {{collection}}: {{slug}}"
     update: "Update {{collection}}: {{slug}}"
@@ -22,7 +25,7 @@ local_backend: true
 publish_mode: editorial_workflow
 
 # Change to https://cochisedefensivepistolmatch.com when the domain moves.
-site_url: https://cdpm.netlify.app
+site_url: https://cdpm-website.dave-girgis.workers.dev
 logo_url: /favicon.svg
 
 media_folder: static/images/uploads
