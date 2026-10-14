@@ -3,7 +3,8 @@
 //   npx wrangler deploy
 //   npx wrangler secret put GITHUB_CLIENT_ID
 //   npx wrangler secret put GITHUB_CLIENT_SECRET
-// The GitHub OAuth app's callback URL must be https://<this worker>/callback.
+// The GitHub OAuth app ("cdpm cloudflare") redirect URI must be
+// https://cdpm-decap-oauth.dave-girgis.workers.dev/callback.
 {
   "name": "cdpm-decap-oauth",
   "main": "src/index.js",
