@@ -1,0 +1,11 @@
+{{ define "main" }}
+<div class="wrap page">
+  <header class="page-head">
+    <h1>Page not found</h1>
+    <p class="lede">That page isn't here. It may have moved when the site was rebuilt.</p>
+  </header>
+  <div class="prose">
+    <p>Try the <a href="{{ "results/" | relURL }}">match results</a>, the <a href="{{ "/" | relURL }}">home page</a>, or the menu above.</p>
+  </div>
+</div>
+{{ end }}

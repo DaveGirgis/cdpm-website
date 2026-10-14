@@ -1,0 +1,15 @@
+// GitHub login helper for the site editor. Deployed separately from the site:
+//   cd tools/decap-oauth
+//   npx wrangler deploy
+//   npx wrangler secret put GITHUB_CLIENT_ID
+//   npx wrangler secret put GITHUB_CLIENT_SECRET
+// The GitHub OAuth app's callback URL must be https://<this worker>/callback.
+{
+  "name": "cdpm-decap-oauth",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-14",
+  "vars": {
+    // Pages allowed to receive the login token (comma-separated, no trailing slash).
+    "ALLOWED_ORIGINS": "https://cochisedefensivepistolmatch.com,https://www.cochisedefensivepistolmatch.com,https://cdpm-website.dave-girgis.workers.dev"
+  }
+}

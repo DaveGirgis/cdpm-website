@@ -1,0 +1,7 @@
+# Response headers for Cloudflare (Netlify reads this file too).
+# Beta: X-Robots-Tag keeps search engines out. Remove that line when the real
+# domain points at this site.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Robots-Tag: noindex

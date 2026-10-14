@@ -1,0 +1,11 @@
+// Cloudflare Workers static-assets site. Workers Builds runs `hugo --gc --minify`
+// (build variable HUGO_VERSION=0.167.0) and then `npx wrangler deploy`, which
+// uploads public/. _redirects and _headers in public/ are applied by Cloudflare.
+{
+  "name": "cdpm-website",
+  "compatibility_date": "2026-10-14",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page"
+  }
+}
