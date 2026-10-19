@@ -24,8 +24,7 @@ local_backend: true
 # a production deploy, which costs 15 of the 300 free credits a month.
 publish_mode: editorial_workflow
 
-# Change to https://cochisedefensivepistolmatch.com when the domain moves.
-site_url: https://cdpm-website.dave-girgis.workers.dev
+site_url: https://cochisedefensivepistolmatch.com
 logo_url: /favicon.svg
 
 media_folder: static/images/uploads

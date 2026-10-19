@@ -67,8 +67,7 @@ The site is moving to Cloudflare (Workers static assets, built from GitHub):
 - Project **cdpm-website** in Dave Girgis's Cloudflare account. Build command
   `hugo --gc --minify`, deploy command `npx wrangler deploy`, build variable
   `HUGO_VERSION=0.167.0`. Settings for the deploy are in `wrangler.jsonc`.
-- Response headers are in `static/_headers` (remove the `X-Robots-Tag`
-  line when the real domain points here).
+- Response headers are in `static/_headers`.
 - "Login with GitHub" in the editor goes through a small Worker in
   `tools/decap-oauth/` (deployed separately, with its own GitHub OAuth app).
 - DNS for cochisedefensivepistolmatch.com is on Cloudflare; email still goes
