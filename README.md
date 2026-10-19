@@ -1,12 +1,12 @@
 # Cochise Defensive Pistol Match web site
 
-Beta replacement for <https://cochisedefensivepistolmatch.com>, built with
+The site at <https://cochisedefensivepistolmatch.com>, built with
 [Hugo](https://gohugo.io/) and edited through [Decap CMS](https://decapcms.org/).
-Hosted on Netlify; every push to `main` rebuilds the site.
+Hosted on Cloudflare; every push to `main` rebuilds the site.
 
 ## Editing the site (match directors)
 
-1. Go to `<site address>/admin/` and choose **Login with GitHub**.
+1. Go to <https://cochisedefensivepistolmatch.com/admin/> and choose **Login with GitHub**.
    Your GitHub account needs write access to this repository.
 2. **Match results → New Match** after each match:
    - Match date and title (e.g. "November 7, 2026")
@@ -19,9 +19,8 @@ Hosted on Netlify; every push to `main` rebuilds the site.
    **Ready**, then click **Publish** (or use **Publish → Publish now** in the
    entry). The live site updates in about a minute.
 
-Each publish costs 15 of the site's 300 free Netlify credits per month, so
-finish an entry before publishing rather than publishing small fixes one at a
-time. Saving drafts is free.
+Drafts are kept as pull requests on GitHub until they're published, so
+nothing half-finished goes live.
 
 Other things you can change there:
 
@@ -47,7 +46,10 @@ static/documents/legacy/        stage-design PDFs from the old site
 static/documents/stage-designs/ PDFs uploaded through the CMS
 static/vendor/pdfjs/            PDF.js 6.4.299 (shows stage designs inline on match pages)
 static/_redirects               old .php and /documents URLs → new pages
-tools/                          one-off migration scripts (see below)
+static/_headers                 response headers
+wrangler.jsonc                  Cloudflare deploy settings for the site
+tools/decap-oauth/              "Login with GitHub" helper (separate Worker)
+tools/*.py                      one-off migration scripts (see below)
 ```
 
 ## Running it locally
@@ -60,32 +62,20 @@ Then open <http://localhost:1313/>. To try the editor without logging in,
 also run `npx decap-server` and open <http://localhost:1313/admin/>; changes
 are written straight to your local files.
 
-## Cloudflare hosting (replacing Netlify)
+## Hosting and accounts
 
-The site is moving to Cloudflare (Workers static assets, built from GitHub):
+Everything runs on free plans. Handover note for whoever looks after the site:
 
-- Project **cdpm-website** in Dave Girgis's Cloudflare account. Build command
-  `hugo --gc --minify`, deploy command `npx wrangler deploy`, build variable
-  `HUGO_VERSION=0.167.0`. Settings for the deploy are in `wrangler.jsonc`.
-- Response headers are in `static/_headers`.
-- "Login with GitHub" in the editor goes through a small Worker in
-  `tools/decap-oauth/` (deployed separately, with its own GitHub OAuth app).
-- DNS for cochisedefensivepistolmatch.com is on Cloudflare; email still goes
-  to HostMetro (MX, mail, SPF and DKIM records).
+| What | Where | Notes |
+|---|---|---|
+| Site files | GitHub repo `DaveGirgis/cdpm-website` | Editors need write access (repo **Settings → Collaborators**) |
+| Website | Cloudflare Worker **cdpm-website** (Dave Girgis's Cloudflare account) | Builds `main`: `hugo --gc --minify`, then `npx wrangler deploy`; build variable `HUGO_VERSION=0.167.0`; custom domains `cochisedefensivepistolmatch.com` and `www` |
+| Editor login | Cloudflare Worker **cdpm-decap-oauth** (code in `tools/decap-oauth/`) | Runtime secrets `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` from the GitHub OAuth app **cdpm cloudflare** (redirect URI `https://cdpm-decap-oauth.dave-girgis.workers.dev/callback`) |
+| DNS | Cloudflare (same account) | Website records point at the Worker; `www` redirects to the bare domain (Rules → Redirect Rules); Always Use HTTPS is on |
+| Email | HostMetro (`metro705.hostmetro.com`) | MX, `mail`, `pop`, `smtp`, SPF and DKIM records in Cloudflare DNS must keep pointing there |
+| Domain registration | HostMetro (registrar eNom) | Renews **Feb 17, 2027**; plan to transfer to Cloudflare Registrar before then |
 
-## Netlify setup (once)
-
-1. Netlify → **Add new site → Import an existing project → GitHub** →
-   `DaveGirgis/cdpm-website`. The build settings come from `netlify.toml`.
-2. GitHub → **Settings → Developer settings → OAuth Apps → New OAuth App**:
-   - Homepage URL: the Netlify site address
-   - Authorization callback URL: `https://api.netlify.com/auth/done`
-3. Netlify → site → **Project configuration → Access & security → OAuth →
-   Install provider → GitHub**, and paste the client ID and secret from step 2.
-4. Add editors as collaborators on the GitHub repository (write access).
-
-While this is a beta, `netlify.toml` sends `X-Robots-Tag: noindex` so search
-engines skip it. Remove that header when the real domain points here.
+The HTTPS certificate is issued and renewed by Cloudflare automatically.
 
 ## Migration from the old site
 

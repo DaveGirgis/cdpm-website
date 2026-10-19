@@ -19,9 +19,8 @@ backend:
 # open http://localhost:1313/admin/ while `hugo server` is running.
 local_backend: true
 
-# Drafts mode: "Save" keeps changes as a draft (on a cms/* branch, which costs
-# no Netlify credits); only "Publish" updates the live site. Every publish is
-# a production deploy, which costs 15 of the 300 free credits a month.
+# Drafts mode: "Save" keeps changes as a draft (a cms/* branch and pull
+# request on GitHub); only "Publish" merges it into main and updates the site.
 publish_mode: editorial_workflow
 
 site_url: https://cochisedefensivepistolmatch.com
