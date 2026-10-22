@@ -202,14 +202,14 @@ collections:
               - { name: show, label: Show, widget: boolean, default: true }
           - name: cancellations
             label: Cancelled dates
-            hint: The home page crosses out a cancelled date and shows your note.
+            hint: "Each cancelled date shows in red at the top of the home page Next match box as soon as you publish, and disappears by itself after the date. When it is the next date, it is crossed out and the following date is shown. Leave the list empty when nothing is cancelled."
             widget: list
             required: false
             summary: "{{fields.date}} {{fields.event}}"
             fields:
               - { name: date, label: Date, hint: "Match = 1st Saturday, workshop = 4th Saturday. The date must be the exact day to show as cancelled.", widget: datetime, format: YYYY-MM-DD, date_format: MMMM D, YYYY, time_format: false }
               - { name: event, label: Event, widget: select, options: [match, workshop], default: match }
-              - { name: note, label: Note, widget: string, default: Cancelled }
+              - { name: note, label: Note, hint: "Shown in red, e.g. Cancelled due to Hunting Trip", widget: string, default: Cancelled }
       - name: years
         label: Year notices
         file: data/years.yaml

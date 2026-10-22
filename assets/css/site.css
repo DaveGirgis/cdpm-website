@@ -7,6 +7,8 @@
   --brand: #20295e;
   --brand-ink: #ffffff;
   --accent: #b0502a;
+  --alert: #b42318;
+  --alert-bg: #fdecea;
   --notice: #fff6e0;
   --notice-line: #ecd7a3;
   --win: #fff3a6;
@@ -24,6 +26,8 @@
     --line: #2c3240;
     --brand: #2b3677;
     --accent: #e4895f;
+    --alert: #ff8a80;
+    --alert-bg: #3a1a1a;
     --notice: #2a2516;
     --notice-line: #574a25;
     --win: #4a4214;
@@ -91,7 +95,12 @@ h3 { font-size: 1.1rem; }
 .hero .btn-ghost { color: #fff; border-color: rgb(255 255 255 / 60%); }
 .next h2 { text-transform: uppercase; letter-spacing: .08em; font-size: .85rem; color: var(--muted); margin-bottom: 4px; }
 .next-date { font-size: 1.45rem; font-weight: 700; margin: 0 0 12px; line-height: 1.25; }
-.next-note { color: var(--accent); font-weight: 600; margin: -6px 0 12px; }
+.next-note { color: var(--alert); font-weight: 700; margin: -6px 0 12px; }
+.next-date.cancelled, [data-next].cancelled { text-decoration: line-through; opacity: .7; }
+.next-alerts { list-style: none; margin: 4px 0 12px; padding: 10px 12px; border-radius: 8px;
+  background: var(--alert-bg); color: var(--alert); border-left: 4px solid var(--alert); }
+.next-alerts li + li { margin-top: 6px; }
+.next-alerts strong { font-weight: 700; }
 .facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 0 0 12px; }
 .facts dt { color: var(--muted); }
 .facts dd { margin: 0; }

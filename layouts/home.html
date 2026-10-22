@@ -14,6 +14,7 @@
     <aside class="next card" id="next-match"
       data-cancellations="{{ jsonify (default (slice) $s.cancellations) }}">
       <h2>Next match</h2>
+      <ul class="next-alerts" data-alerts hidden></ul>
       <p class="next-date" data-next="match">{{ $s.match.schedule }}</p>
       <p class="next-note" data-note="match" hidden></p>
       <dl class="facts">
